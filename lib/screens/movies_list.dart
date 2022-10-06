@@ -1,34 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:movie/http/webclient.dart';
+import 'package:movie/models/books.dart';
 
-class moviesList extends StatelessWidget {
+class MoviesList extends StatefulWidget {
+  @override
+  State<MoviesList> createState() => _MoviesListState();
+}
+
+
+class _MoviesListState extends State<MoviesList> {
+
+  List<Books> booksList = [];
+  Future<void> getBooks() async {
+    final response = await findAllBooks();
+    setState(() {
+      booksList = response;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    getBooks();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Movies List'),
       ),
-      body: ListView(
-        children: [
-          Card(
-      child: ListTile(
-      leading: Icon(Icons.warning),
-        title: Text('Titulo', style: TextStyle(fontSize: 24.0)),
-      subtitle: Text('descricao'),
-          )
-          ),  Card(
-      child: ListTile(
-      leading: Icon(Icons.warning),
-        title: Text('Titulo', style: TextStyle(fontSize: 24.0)),
-      subtitle: Text('descricao'),
-          )
-          ),  Card(
-      child: ListTile(
-      leading: Icon(Icons.warning),
-        title: Text('Titulo', style: TextStyle(fontSize: 24.0)),
-      subtitle: Text('descricao'),
-          )
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: booksList.length,
+        itemBuilder: (context,index){
+          final book = booksList[index];
+          return Card(
+              child: ListTile(
+                leading: Image.network('https://www.chevrolet.com.br/content/dam/chevrolet/mercosur/brazil/portuguese/index/cars/cars-subcontent/02-images/cruze-sport6-rs-carros.jpg?imwidth=960'),
+                title: Text(book.title, style: TextStyle(fontSize: 24.0)),
+                subtitle: Text(book.wikiUrl),
+              )
+          );
+        },
       ),
     );
   }

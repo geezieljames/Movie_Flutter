@@ -23,7 +23,7 @@ class Principal extends StatelessWidget {
               color: Colors.blue,
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => moviesList()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MoviesList()));
                 },
                 child: Container(
                   padding: EdgeInsets.all(8.0),
